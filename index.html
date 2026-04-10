@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>株式会社リンネ | ホテル・旅館の"未来"を、共に創る。</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+  <style>
+    /* ===========================
+       CSS Variables & Reset
+    =========================== */
+    :root {
+      --navy: #1c2b4a;
+      --navy-light: #253558;
+      --navy-dark: #111d33;
+      --offwhite: #f7f4ef;
+      --offwhite-dark: #ede9e2;
+      --gold: #c9a459;
+      --gold-light: #dbb96e;
+      --gold-dark: #a88840;
+      --text-dark: #1a1a2e;
+      --text-mid: #4a4a5a;
+      --text-light: #7a7a8a;
+      --white: #ffffff;
+      --font-ja: 'Noto Serif JP', 'Times New Roman', serif;
+      --font-en: 'Playfair Display', Georgia, serif;
+      --transition: 0.3s ease;
+      --shadow: 0 8px 40px rgba(28, 43, 74, 0.12);
+      --shadow-hover: 0 16px 60px rgba(28, 43, 74, 0.2);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font-ja);
+      background-color: var(--offwhite);
+      color: var(--text-dark);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===========================
+       Scroll Fade-in Animation
+    =========================== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+
+    /* ===========================
+       Header
+    =========================== */
+    #header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: transparent;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    #header.scrolled {
+      background: rgba(17, 29, 51, 0.97);
+      box-shadow: 0 2px 24px rgba(0,0,0,0.18);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      padding: 0 40px;
+    }
+    .logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+    .logo-ja {
+      font-family: var(--font-ja);
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--white);
+      letter-spacing: 0.08em;
+    }
+    .logo-en {
+      font-family: var(--font-en);
+      font-size: 0.72rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    .nav a {
+      font-family: var(--font-ja);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.06em;
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width var(--transition);
+    }
+    .nav a:hover { color: var(--gold); }
+    .nav a:hover::after { width: 100%; }
+    .nav-cta {
+      padding: 9px 22px;
+      border: 1px solid var(--gold);
+      color: var(--gold) !important;
+      border-radius: 2px;
+      font-size: 0.8rem !important;
+      letter-spacing: 0.08em;
+      transition: background var(--transition), color var(--transition) !important;
+    }
+    .nav-cta:hover {
+      background: var(--gold) !important;
+      color: var(--navy-dark) !important;
+    }
+    .nav-cta::after { display: none !important; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      transition: all var(--transition);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile Nav */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      width: 100%;
+      background: rgba(17, 29, 51, 0.98);
+      padding: 24px 0 32px;
+      z-index: 999;
+    }
+    .mobile-nav.open { display: block; }
+    .mobile-nav a {
+      display: block;
+      text-align: center;
+      padding: 14px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: color var(--transition);
+    }
+    .mobile-nav a:hover { color: var(--gold); }
+
+    /* ===========================
+       Hero Section
+    =========================== */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1600&auto=format&fit=crop&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.55);
+      transform: scale(1.04);
+      transition: transform 8s ease;
+    }
+    #hero.loaded .hero-bg { transform: scale(1); }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(17, 29, 51, 0.72) 0%,
+        rgba(28, 43, 74, 0.45) 50%,
+        rgba(17, 29, 51, 0.65) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      padding: 0 40px;
+    }
+    .hero-label {
+      font-family: var(--font-en);
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+    .hero-title {
+      font-family: var(--font-ja);
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.35;
+      letter-spacing: 0.04em;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.5s forwards;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--gold-light);
+    }
+    .hero-sub {
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      color: rgba(255,255,255,0.82);
+      line-height: 1.9;
+      margin-bottom: 44px;
+      max-width: 560px;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.7s forwards;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.9s forwards;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      background: var(--gold);
+      color: var(--navy-dark);
+      font-family: var(--font-ja);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      border-radius: 2px;
+      border: 2px solid var(--gold);
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-primary:hover {
+      background: var(--gold-dark);
+      border-color: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(201, 164, 89, 0.35);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      background: transparent;
+      color: var(--white);
+      font-family: var(--font-ja);
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      border-radius: 2px;
+      border: 2px solid rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: border-color var(--transition), color var(--transition), transform var(--transition);
+    }
+    .btn-secondary:hover {
+      border-color: var(--white);
+      transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.5);
+      font-family: var(--font-en);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      animation: bounce 2s ease infinite;
+    }
+    .hero-scroll::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ===========================
+       Section Commons
+    =========================== */
+    .section {
+      padding: 120px 0;
+    }
+    .section-alt {
+      background: var(--navy);
+    }
+    .section-label {
+      font-family: var(--font-en);
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: var(--font-ja);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+    }
+    .section-title.light { color: var(--white); }
+    .section-divider {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 28px;
+    }
+    .section-desc {
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.9;
+      max-width: 640px;
+      font-weight: 300;
+    }
+    .section-desc.light { color: rgba(255,255,255,0.72); }
+
+    /* ===========================
+       Services Section
+    =========================== */
+    #services { background: var(--offwhite); }
+
+    .services-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .services-header .section-divider { margin: 0 auto 28px; }
+    .services-header .section-desc { margin: 0 auto; text-align: center; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      position: relative;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+    }
+    .service-card-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .service-card-body {
+      padding: 36px 32px 40px;
+    }
+    .service-number {
+      font-family: var(--font-en);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .service-title {
+      font-family: var(--font-ja);
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.45;
+      margin-bottom: 16px;
+      color: var(--navy);
+    }
+    .service-desc {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 28px;
+      font-weight: 300;
+    }
+
+    /* Stats Cards */
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .stat-card {
+      flex: 1;
+      background: var(--navy);
+      border-radius: 3px;
+      padding: 18px 14px;
+      text-align: center;
+    }
+    .stat-card.highlight {
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy-light));
+      border: 1px solid var(--gold);
+    }
+    .stat-label {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .stat-value {
+      font-family: var(--font-en);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+    .stat-card.highlight .stat-value {
+      font-size: 2rem;
+      color: var(--gold-light);
+    }
+    .stat-unit {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+
+    /* Coming Soon Badge */
+    .badge-coming-soon {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+      color: var(--white);
+      font-family: var(--font-en);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      border-radius: 100px;
+      margin-bottom: 14px;
+    }
+    .badge-coming-soon::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--white);
+      border-radius: 50%;
+      animation: pulse 1.5s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .service-quote {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--navy);
+      border-left: 2px solid var(--gold);
+      padding-left: 14px;
+      line-height: 1.7;
+    }
+
+    /* ===========================
+       Why Section
+    =========================== */
+    #why {
+      background: var(--navy);
+    }
+    .why-header {
+      margin-bottom: 64px;
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+    .why-item {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201, 164, 89, 0.15);
+      border-radius: 4px;
+      padding: 32px 28px;
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .why-item:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(201, 164, 89, 0.35);
+    }
+    .why-icon {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      background: rgba(201, 164, 89, 0.12);
+      border: 1px solid rgba(201, 164, 89, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+    .why-text h3 {
+      font-family: var(--font-ja);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+    }
+    .why-text p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.58);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    /* ===========================
+       CEO Message
+    =========================== */
+    #message { background: var(--offwhite); }
+
+    .message-inner {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 72px;
+      align-items: start;
+    }
+    .message-photo {
+      position: relative;
+    }
+    .message-photo-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 3px;
+      filter: grayscale(15%);
+    }
+    .message-photo-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(17,29,51,0.88), transparent);
+      color: var(--white);
+      padding: 32px 20px 20px;
+      border-radius: 0 0 3px 3px;
+    }
+    .message-photo-caption .name {
+      font-family: var(--font-ja);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+    .message-photo-caption .role {
+      font-size: 0.75rem;
+      color: var(--gold-light);
+      margin-top: 4px;
+    }
+    .message-body .section-label { margin-bottom: 12px; }
+    .message-body .section-title { margin-bottom: 24px; }
+    .message-text {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      line-height: 2.1;
+      font-weight: 300;
+    }
+    .message-text p + p { margin-top: 20px; }
+    .message-signature {
+      margin-top: 40px;
+      padding-top: 28px;
+      border-top: 1px solid var(--offwhite-dark);
+    }
+    .message-signature .sig-name {
+      font-family: var(--font-ja);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.08em;
+    }
+    .message-signature .sig-title {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    /* ===========================
+       Contact Section
+    =========================== */
+    #contact { background: var(--navy-dark); }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-info .section-title.light { font-size: clamp(1.4rem, 2.5vw, 2rem); }
+    .contact-info .section-desc { margin-bottom: 36px; }
+    .contact-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: rgba(255,255,255,0.65);
+      font-size: 0.88rem;
+    }
+    .contact-item-icon {
+      width: 38px;
+      height: 38px;
+      background: rgba(201,164,89,0.12);
+      border: 1px solid rgba(201,164,89,0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.06em;
+    }
+    .form-group .required {
+      display: inline-block;
+      font-size: 0.65rem;
+      background: var(--gold);
+      color: var(--navy-dark);
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+    .form-group input,
+    .form-group textarea {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 3px;
+      padding: 14px 16px;
+      color: var(--white);
+      font-family: var(--font-ja);
+      font-size: 0.9rem;
+      transition: border-color var(--transition), background var(--transition);
+      outline: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      background: rgba(255,255,255,0.09);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+    .form-note {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.38);
+      line-height: 1.6;
+    }
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 17px 48px;
+      background: var(--gold);
+      color: var(--navy-dark);
+      font-family: var(--font-ja);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+      align-self: flex-start;
+    }
+    .btn-submit:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,164,89,0.3);
+    }
+    .btn-submit svg {
+      transition: transform var(--transition);
+    }
+    .btn-submit:hover svg { transform: translateX(4px); }
+
+    /* Form Success */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 48px 32px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,164,89,0.3);
+      border-radius: 4px;
+    }
+    .form-success.show { display: block; }
+    .form-success .success-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .form-success h3 {
+      font-family: var(--font-ja);
+      font-size: 1.1rem;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .form-success p { font-size: 0.85rem; color: rgba(255,255,255,0.55); }
+
+    /* ===========================
+       Footer
+    =========================== */
+    #footer {
+      background: var(--navy-dark);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 60px 0 36px;
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 52px;
+    }
+    .footer-brand .logo-ja { font-size: 1.2rem; }
+    .footer-tagline {
+      margin-top: 12px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.7;
+    }
+    .footer-col h4 {
+      font-family: var(--font-en);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .footer-col ul { display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      transition: color var(--transition);
+    }
+    .footer-col ul a:hover { color: var(--gold-light); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-bottom p {
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.3);
+    }
+    .footer-bottom .en {
+      font-family: var(--font-en);
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.06em;
+    }
+
+    /* ===========================
+       Responsive
+    =========================== */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: 1fr; max-width: 600px; margin: 0 auto; }
+      .message-inner { grid-template-columns: 280px 1fr; gap: 48px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 768px) {
+      .header-inner { padding: 0 20px; }
+      .nav { display: none; }
+      .hamburger { display: flex; }
+
+      .section { padding: 80px 0; }
+      .hero-content { padding: 0 20px; }
+
+      .why-grid { grid-template-columns: 1fr; }
+      .message-inner { grid-template-columns: 1fr; }
+      .message-photo { max-width: 320px; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 1.75rem; }
+      .hero-btns { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; justify-content: center; }
+      .stats-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===========================
+       Header
+  =========================== -->
+  <header id="header">
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <span class="logo-ja">株式会社リンネ</span>
+        <span class="logo-en">RINNE Inc.</span>
+      </a>
+      <nav class="nav">
+        <a href="#services">サービス</a>
+        <a href="#why">選ばれる理由</a>
+        <a href="#message">代表メッセージ</a>
+        <a href="#contact" class="nav-cta">無料相談</a>
+      </nav>
+      <div class="hamburger" id="hamburger" aria-label="メニューを開く" role="button" tabindex="0">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#services" class="mobile-link">サービス</a>
+    <a href="#why" class="mobile-link">選ばれる理由</a>
+    <a href="#message" class="mobile-link">代表メッセージ</a>
+    <a href="#contact" class="mobile-link">お問い合わせ</a>
+  </nav>
+
+  <!-- ===========================
+       Hero
+  =========================== -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="container">
+      <div class="hero-content">
+        <p class="hero-label">Hotel &amp; Ryokan Management Consulting</p>
+        <h1 class="hero-title">
+          ホテル・旅館の<em>"未来"</em>を、<br />共に創る。
+        </h1>
+        <p class="hero-sub">
+          経営改善から事業継承まで。宿業専門のプロフェッショナルが、<br />
+          オーナーの課題に正面から向き合います。
+        </p>
+        <div class="hero-btns">
+          <a href="#contact" class="btn-primary">
+            まずは無料相談
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#services" class="btn-secondary">
+            サービスを見る
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">SCROLL</div>
+  </section>
+
+  <!-- ===========================
+       Services
+  =========================== -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="services-header fade-in">
+        <p class="section-label">Our Services</p>
+        <h2 class="section-title">サービス紹介</h2>
+        <div class="section-divider"></div>
+        <p class="section-desc">
+          宿業界に特化した専門知識と、実績に裏付けられたメソッドで、<br />
+          オーナーの経営課題に寄り添い、確実な成果をご提供します。
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <!-- Service 1 -->
+        <div class="service-card fade-in fade-in-delay-1">
+          <img
+            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format&fit=crop&q=75"
+            alt="ホテル・旅館コンサルティング"
+            class="service-card-img"
+            loading="lazy"
+          />
+          <div class="service-card-body">
+            <p class="service-number">SERVICE 01</p>
+            <h3 class="service-title">ホテル・旅館<br />コンサルティング</h3>
+            <p class="service-desc">
+              売上・利益改善に特化した経営支援。現場に深く入り込み、数字が変わるまで伴走し続けます。客室単価・稼働率・コスト構造を多角的に分析し、持続可能な収益体質への転換を実現します。
+            </p>
+            <div class="stats-row">
+              <div class="stat-card">
+                <p class="stat-label">平均売上改善率</p>
+                <p class="stat-value">15.6<span style="font-size:1rem">%</span></p>
+              </div>
+              <div class="stat-card highlight">
+                <p class="stat-label">平均利益改善率</p>
+                <p class="stat-value">180<span style="font-size:1rem">%</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card fade-in fade-in-delay-2">
+          <img
+            src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800&auto=format&fit=crop&q=75"
+            alt="事業継承・M&A仲介アドバイザリー"
+            class="service-card-img"
+            loading="lazy"
+          />
+          <div class="service-card-body">
+            <p class="service-number">SERVICE 02</p>
+            <h3 class="service-title">事業継承・M&amp;A<br />仲介アドバイザリー</h3>
+            <p class="service-desc">
+              ホテル・旅館専門の事業継承・M&A支援。後継者問題から第三者承継まで、オーナーの想いと施設の価値を最大限に引き継ぐ最良の方法をご提案します。
+            </p>
+            <blockquote class="service-quote">
+              秘密厳守・完全伴走型。<br />次の世代へ、最良の形でつなぐ。
+            </blockquote>
+          </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card fade-in fade-in-delay-3">
+          <img
+            src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&auto=format&fit=crop&q=75"
+            alt="映像事業"
+            class="service-card-img"
+            loading="lazy"
+          />
+          <div class="service-card-body">
+            <p class="service-number">SERVICE 03</p>
+            <span class="badge-coming-soon">COMING SOON — 2026.9 LAUNCH</span>
+            <h3 class="service-title">映像事業<br />（ドキュメンタリー・映像制作）</h3>
+            <p class="service-desc">
+              宿の物語を、映像で残す。ドキュメンタリーと映像制作で、ホテル・旅館の魅力を次世代へ伝えます。YouTubeドキュメンタリーシリーズによる施設のブランディングと集客強化を図ります。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       Why Section
+  =========================== -->
+  <section id="why" class="section section-alt">
+    <div class="container">
+      <div class="why-header fade-in">
+        <p class="section-label">Why Rinne</p>
+        <h2 class="section-title light">選ばれる理由</h2>
+        <div class="section-divider"></div>
+        <p class="section-desc light">
+          宿業界を知り尽くしたチームが、オーナーの隣に立ち続けます。
+        </p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-item fade-in fade-in-delay-1">
+          <div class="why-icon">🏨</div>
+          <div class="why-text">
+            <h3>宿業界に特化した専門知識</h3>
+            <p>ホテル・旅館の経営構造、OTAとの交渉、季節変動対応まで、宿業に特化したプロフェッショナルが課題を的確に分析します。</p>
+          </div>
+        </div>
+
+        <div class="why-item fade-in fade-in-delay-2">
+          <div class="why-icon">📊</div>
+          <div class="why-text">
+            <h3>数字で証明できる実績</h3>
+            <p>平均利益改善率180%。感覚論ではなく、KPIベースの経営改善で確実な成果をご提供します。</p>
+          </div>
+        </div>
+
+        <div class="why-item fade-in fade-in-delay-3">
+          <div class="why-icon">🔒</div>
+          <div class="why-text">
+            <h3>秘密厳守・安心の伴走型サポート</h3>
+            <p>ご相談内容は厳重に管理。事業継承や経営危機など、センシティブな課題も安心してご相談いただける体制を整えています。</p>
+          </div>
+        </div>
+
+        <div class="why-item fade-in fade-in-delay-4">
+          <div class="why-icon">🎬</div>
+          <div class="why-text">
+            <h3>事業継承から映像発信まで一気通貫</h3>
+            <p>経営改善・M&A・映像ブランディングまで、宿の課題をトータルでサポートできるのはリンネだけです。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       CEO Message
+  =========================== -->
+  <section id="message" class="section">
+    <div class="container">
+      <div class="message-inner">
+        <div class="message-photo fade-in">
+          <img
+            src="images/okumura.jpg"
+            alt="代表取締役 奥村 勇太"
+            class="message-photo-img"
+            loading="lazy"
+          />
+          <div class="message-photo-caption">
+            <p class="name">代表取締役　奥村 勇太</p>
+            <p class="role">Representative Director</p>
+          </div>
+        </div>
+
+        <div class="message-body fade-in fade-in-delay-1">
+          <p class="section-label">Message</p>
+          <h2 class="section-title">代表メッセージ</h2>
+          <div class="section-divider"></div>
+          <div class="message-text">
+            <p>
+              日本全国の宿を訪れるなかで、私はいつも感じてきました。ここには確かな価値がある、なのになぜ苦しんでいるのか——と。素晴らしい立地、磨き上げられたおもてなし、代々受け継がれてきた建物と文化。それでも経営が立ち行かなくなっていく現実があります。
+            </p>
+            <p>
+              リンネを設立したのは、そんな「哀しい"輪廻"を断ち切りたい」と考えたからです。宿の「良さ」を経営の「強さ」に変換する専門家として、オーナーの隣に立ち続ける存在でありたいと思っています。
+            </p>
+            <p>
+              経営改善、事業継承、そして映像による魅力の発信——。私たちが一気通貫で支援できるのは、宿の現場を知り尽くしているからこそです。どうかひとりで抱え込まず、まずはお話を聞かせてください。
+            </p>
+          </div>
+          <div class="message-signature">
+            <p class="sig-name">奥村 勇太</p>
+            <p class="sig-title">株式会社リンネ　代表取締役</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       Contact
+  =========================== -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="contact-inner">
+        <div class="contact-info fade-in">
+          <p class="section-label">Contact</p>
+          <h2 class="section-title light">お問い合わせ</h2>
+          <div class="section-divider"></div>
+          <p class="section-desc light">
+            まずはお気軽にご相談ください。<br />
+            秘密厳守にて対応いたします。
+          </p>
+          <div class="contact-detail" style="margin-top: 40px;">
+            <div class="contact-item">
+              <div class="contact-item-icon">📍</div>
+              <span>〒812-0020 福岡県福岡市博多区対馬小路1-3<br />THE GATE 5階</span>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">✉</div>
+              <span>y_okumura@reincarnation.co.jp</span>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">📞</div>
+              <span>089-935-8880</span>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">📠</div>
+              <span>089-935-8881</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-in fade-in-delay-1">
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">お名前<span class="required">必須</span></label>
+                <input type="text" id="name" name="name" placeholder="山田 太郎" required />
+              </div>
+              <div class="form-group">
+                <label for="company">会社名・施設名</label>
+                <input type="text" id="company" name="company" placeholder="◯◯旅館" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">メールアドレス<span class="required">必須</span></label>
+              <input type="email" id="email" name="email" placeholder="example@mail.com" required />
+            </div>
+            <div class="form-group">
+              <label for="message">お問い合わせ内容<span class="required">必須</span></label>
+              <textarea id="message" name="message" placeholder="ご相談内容をご記入ください。&#10;例）売上改善について相談したい、事業継承を検討している、など" required></textarea>
+            </div>
+            <p class="form-note">
+              ※ご入力いただいた個人情報は、お問い合わせへの返答のみに使用し、第三者への提供は一切いたしません。
+            </p>
+            <button type="submit" class="btn-submit">
+              送信する
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </form>
+          <div class="form-success" id="formSuccess">
+            <div class="success-icon">✓</div>
+            <h3>送信が完了しました</h3>
+            <p>お問い合わせありがとうございます。<br />担当者より3営業日以内にご連絡いたします。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       Footer
+  =========================== -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="logo">
+            <span class="logo-ja">株式会社リンネ</span>
+            <span class="logo-en" style="margin-top:4px;">RINNE Inc.</span>
+          </div>
+          <p class="footer-tagline">
+            ホテル・旅館の"未来"を、共に創る。<br />
+            宿業専門のコンサルティングファームとして、<br />
+            経営改善から事業継承まで一気通貫で支援します。
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">コンサルティング</a></li>
+            <li><a href="#services">事業継承・M&amp;A</a></li>
+            <li><a href="#services">映像事業（準備中）</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#why">選ばれる理由</a></li>
+            <li><a href="#message">代表メッセージ</a></li>
+            <li><a href="#contact">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 株式会社リンネ. All rights reserved.</p>
+        <p class="en">© 2025 Rinne Inc. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===========================
+       JavaScript
+  =========================== -->
+  <script>
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Hero image Ken Burns
+    const hero = document.getElementById('hero');
+    window.addEventListener('load', () => {
+      setTimeout(() => hero.classList.add('loaded'), 100);
+    });
+
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+    });
+    hamburger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        hamburger.click();
+      }
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileNav.classList.remove('open');
+      });
+    });
+
+    // Intersection Observer for fade-in
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Contact form
+    const form = document.getElementById('contactForm');
+    const successMsg = document.getElementById('formSuccess');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const msg = form.message.value.trim();
+
+      if (!name || !email || !msg) {
+        const firstEmpty = !name ? form.name : !email ? form.email : form.message;
+        firstEmpty.focus();
+        firstEmpty.style.borderColor = '#e05a5a';
+        setTimeout(() => firstEmpty.style.borderColor = '', 2000);
+        return;
+      }
+
+      // Simulate submit (replace with actual endpoint later)
+      const btn = form.querySelector('.btn-submit');
+      btn.textContent = '送信中...';
+      btn.disabled = true;
+      setTimeout(() => {
+        form.style.display = 'none';
+        successMsg.classList.add('show');
+      }, 800);
+    });
+
+    // Reset border on input
+    [form.name, form.email, form.message].forEach(el => {
+      el.addEventListener('input', () => el.style.borderColor = '');
+    });
+
+    // Smooth scroll for all anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const offset = 72;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
