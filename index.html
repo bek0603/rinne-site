@@ -1159,6 +1159,9 @@
 
         <div class="fade-in fade-in-delay-1">
           <form class="contact-form" id="contactForm" novalidate>
+            <input type="hidden" name="access_key" value="87ba6b64-25a5-46de-a9a0-66ad61de6473" />
+            <input type="hidden" name="subject" value="【株式会社リンネ】お問い合わせが届きました" />
+            <input type="hidden" name="from_name" value="株式会社リンネ お問い合わせフォーム" />
             <div class="form-row">
               <div class="form-group">
                 <label for="name">お名前<span class="required">必須</span></label>
@@ -1287,7 +1290,7 @@
     // Contact form
     const form = document.getElementById('contactForm');
     const successMsg = document.getElementById('formSuccess');
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = form.name.value.trim();
       const email = form.email.value.trim();
@@ -1301,14 +1304,28 @@
         return;
       }
 
-      // Simulate submit (replace with actual endpoint later)
       const btn = form.querySelector('.btn-submit');
       btn.textContent = '送信中...';
       btn.disabled = true;
-      setTimeout(() => {
-        form.style.display = 'none';
-        successMsg.classList.add('show');
-      }, 800);
+
+      try {
+        const data = new FormData(form);
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: data
+        });
+        const json = await res.json();
+        if (json.success) {
+          form.style.display = 'none';
+          successMsg.classList.add('show');
+        } else {
+          throw new Error(json.message);
+        }
+      } catch (err) {
+        btn.textContent = '送信する';
+        btn.disabled = false;
+        alert('送信に失敗しました。時間をおいて再度お試しください。');
+      }
     });
 
     // Reset border on input
