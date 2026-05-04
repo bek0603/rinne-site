@@ -664,14 +664,24 @@
     =========================== */
     #contact { background: var(--navy-dark); }
 
+    .contact-lead {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 64px;
+    }
+    .contact-lead .section-divider { margin: 0 auto 28px; }
+    .contact-lead .section-desc {
+      text-align: center;
+      max-width: 100%;
+      margin: 0;
+    }
     .contact-inner {
       display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 80px;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 56px;
       align-items: start;
     }
     .contact-info .section-title.light { font-size: clamp(1.4rem, 2.5vw, 2rem); }
-    .contact-info .section-desc { margin-bottom: 36px; }
     .contact-detail {
       display: flex;
       flex-direction: column;
@@ -865,7 +875,8 @@
     @media (max-width: 1024px) {
       .services-grid { grid-template-columns: 1fr; max-width: 600px; margin: 0 auto; }
       .message-inner { grid-template-columns: 280px 1fr; gap: 48px; }
-      .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+      .contact-lead { margin-bottom: 48px; }
       .footer-inner { grid-template-columns: 1fr 1fr; }
       .footer-brand { grid-column: 1 / -1; }
     }
@@ -1136,16 +1147,27 @@
   =========================== -->
   <section id="contact" class="section">
     <div class="container">
+
+      <!-- リード文：フル幅 -->
+      <div class="contact-lead fade-in">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title light">お問い合わせ</h2>
+        <div class="section-divider"></div>
+        <p class="section-desc light">
+          私たちが最初にお伺いするのは、『経営改善の目的』です。<br />
+          ご自身の報酬を増やし、家族との時間を取り戻したいのか。<br />
+          歯を食いしばって働く社員に、胸を張ってボーナスを渡したいのか。<br />
+          それとも、先代から引き継いだ重い借金を一日も早く完済したいのか。<br /><br />
+          あなたの『お悩み』をお聞かせください。
+        </p>
+      </div>
+
+      <!-- 連絡先＋フォーム：2カラム -->
       <div class="contact-inner">
-        <div class="contact-info fade-in">
-          <p class="section-label">Contact</p>
-          <h2 class="section-title light">お問い合わせ</h2>
-          <div class="section-divider"></div>
-          <p class="section-desc light">
-            まずはお気軽にご相談ください。<br />
-            秘密厳守にて対応いたします。
-          </p>
-          <div class="contact-detail" style="margin-top: 40px;">
+        <div class="contact-info fade-in fade-in-delay-1">
+          <p class="section-label">Contact Info</p>
+          <h3 class="section-title light" style="font-size:1.2rem; margin-bottom:20px;">連絡先</h3>
+          <div class="contact-detail">
             <div class="contact-item">
               <div class="contact-item-icon">📍</div>
               <span>〒812-0020 福岡県福岡市博多区対馬小路1-3<br />THE GATE 5階</span>
@@ -1165,7 +1187,7 @@
           </div>
         </div>
 
-        <div class="fade-in fade-in-delay-1">
+        <div class="fade-in fade-in-delay-2">
           <form class="contact-form" id="contactForm" novalidate>
             <input type="hidden" name="access_key" value="87ba6b64-25a5-46de-a9a0-66ad61de6473" />
             <input type="hidden" name="subject" value="【株式会社リンネ】お問い合わせが届きました" />
@@ -1202,7 +1224,7 @@
             <p>お問い合わせありがとうございます。<br />担当者より3営業日以内にご連絡いたします。</p>
           </div>
         </div>
-      </div>
+      </div><!-- /.contact-inner -->
     </div>
   </section>
 
